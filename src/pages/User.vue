@@ -3,23 +3,21 @@
   import { useUserStore } from '../../stores/user'
   import UserStats from '../components/UserStats.vue'
   import router from '../router'
+  import toYMDFormat from '../utilities/toYMDFormat'
+
   const userData = useUserStore()
 
   const openNum = computed(() => userData.user.tasks.length)
   const todayNum = computed(
     () =>
       userData.user.tasks.filter(
-        task =>
-          task.due_date.substring(0, 10) ==
-          new Date().toISOString().substring(0, 10)
+        task => task.due_date.substring(0, 10) == toYMDFormat(new Date())
       ).length
   )
   const overduedNum = computed(
     () =>
       userData.user.tasks.filter(
-        task =>
-          task.due_date.substring(0, 10) <
-          new Date().toISOString().substring(0, 10)
+        task => task.due_date.substring(0, 10) < toYMDFormat(new Date())
       ).length
   )
 

@@ -3,6 +3,7 @@
   import axios from 'axios'
   import { useUserStore } from '../../stores/user'
   import { useRoute } from 'vue-router'
+  import toYMDFormat from '../utilities/toYMDFormat'
 
   const userData = useUserStore()
   const route = useRoute()
@@ -10,16 +11,12 @@
   const filteredTasks = computed(() => {
     if (route.params.filter == 'mai') {
       return userData.user.tasks.filter(
-        task =>
-          task.due_date.substring(0, 10) ==
-          new Date().toISOString().substring(0, 10)
+        task => task.due_date.substring(0, 10) == toYMDFormat(new Date())
       )
     }
     if (route.params.filter == 'lejárt') {
       return userData.user.tasks.filter(
-        task =>
-          task.due_date.substring(0, 10) <
-          new Date().toISOString().substring(0, 10)
+        task => task.due_date.substring(0, 10) < toYMDFormat(new Date())
       )
     }
     return userData.user.tasks

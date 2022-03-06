@@ -2,15 +2,14 @@
   import { computed, ref } from 'vue'
   import { useUserStore } from '../../stores/user'
   import axios from 'axios'
+  import toYMDFormat from '../utilities/toYMDFormat'
 
   const userData = useUserStore()
 
   const daysFromNow = 5 // mához képest 5 nap
-  const defaultDueDate = new Date(
-    new Date().getTime() + daysFromNow * 24 * 60 * 60 * 1000
+  const defaultDueDate = toYMDFormat(
+    new Date(new Date().getTime() + daysFromNow * 24 * 60 * 60 * 1000)
   )
-    .toISOString()
-    .substring(0, 10)
 
   const emptyTask = {
     task: '',
