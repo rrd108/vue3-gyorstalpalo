@@ -12,15 +12,18 @@
     .toISOString()
     .substring(0, 10)
 
-  const task = computed(() => {
-    if (userData.user.editTask) {
-      return {
-        ...userData.user.tasks.find(t => t.id === userData.user.editTask),
-      }
-    }
-    return {
-      task: '',
-      due: defaultDueDate,
+  const emptyTask = {
+    task: '',
+    due: defaultDueDate,
+  }
+
+  const task = ref({ ...emptyTask })
+
+  userData.$subscribe(mutation => {
+    if (mutation.events.key == 'editTask') {
+      task.value =
+        userData.user.tasks.find(t => t.id == mutation.events.newValue) ||
+        emptyTask
     }
   })
 
@@ -92,7 +95,7 @@
       <input type="text" placeholder="Új feladat" v-model="task.task" />
       <input type="date" v-model="task.due" />
       <button>
-        <font-awesome-icon :icon="task.task ? 'pen-nib' : 'plus'" />
+        <font-awesome-icon :icon="task.id ? 'pen-nib' : 'plus'" />
       </button>
     </form>
 
