@@ -2,8 +2,21 @@
   import { useUserStore } from '../stores/user'
   import AppFooter from './components/AppFooter.vue'
   import AppHeader from './components/AppHeader.vue'
+  import router from './router'
 
   const userData = useUserStore()
+
+  const isLastApiCallRecent =
+    new Date().getTime() - localStorage.getItem('lastApiCall') < 1000 * 60 * 5
+
+  if (isLastApiCallRecent && localStorage.getItem('userData')) {
+    userData.user = JSON.parse(localStorage.getItem('userData'))
+    if (window.location.pathname === '/') {
+      router.push('/tasks')
+    }
+  } else {
+    router.push('/')
+  }
 </script>
 
 <template>

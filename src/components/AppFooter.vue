@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, ref } from 'vue'
+  import { ref } from 'vue'
   import { useUserStore } from '../../stores/user'
   import axios from 'axios'
   import toYMDFormat from '../utilities/toYMDFormat'

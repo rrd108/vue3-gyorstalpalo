@@ -24,6 +24,8 @@
       .then(resp => {
         userData.user = resp.data.data.user
         userData.user.token = resp.data.data.token
+        localStorage.setItem('userData', JSON.stringify(userData.user))
+        localStorage.setItem('lastApiCall', new Date().getTime())
         router.push('/tasks')
       })
       .catch(err => (error.value = 'Hibás bejelentkezés, próbáld meg újra'))
