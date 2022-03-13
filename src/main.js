@@ -13,6 +13,7 @@ import {
   faIgloo,
   faPenNib,
   faPlus,
+  faSpinner,
   faTrash,
   faUserAstronaut,
 } from '@fortawesome/free-solid-svg-icons'
@@ -24,6 +25,7 @@ library.add(
   faIgloo,
   faPenNib,
   faPlus,
+  faSpinner,
   faTrash,
   faUserAstronaut
 )

@@ -10,12 +10,15 @@
 
   const userData = useUserStore()
 
+  const waitingForServerResponse = ref(false)
+
   const login = () => {
     if (!email.value || !pass.value) {
       error.value = 'Töltsd ki mindkét mezőt!'
       return
     }
 
+    waitingForServerResponse.value = true
     axios
       .post(`${import.meta.env.VITE_APP_API_URL}login`, {
         email: email.value,
@@ -26,6 +29,7 @@
         userData.user.token = resp.data.data.token
         localStorage.setItem('userData', JSON.stringify(userData.user))
         localStorage.setItem('lastApiCall', new Date().getTime())
+        //waitingForServerResponse.value = false
         router.push('/tasks')
       })
       .catch(err => (error.value = 'Hibás bejelentkezés, próbáld meg újra'))
@@ -39,7 +43,11 @@
     <img alt="logo" src="../assets/logo.png" />
   </div>
 
-  <form class="df" @submit.prevent="login">
+  <div class="df spinner" v-show="waitingForServerResponse">
+    <font-awesome-icon icon="spinner" spin="true" />
+  </div>
+
+  <form class="df" @submit.prevent="login" v-show="!waitingForServerResponse">
     <font-awesome-icon icon="user-astronaut" />
 
     {{ error }}
@@ -76,7 +84,7 @@
     margin-top: 2rem;
   }
 
-  form svg {
+  svg {
     font-size: 3rem;
   }
 
@@ -93,5 +101,9 @@
     color: #fff;
     border: none;
     font-size: 1.5rem;
+  }
+
+  .spinner {
+    justify-content: center;
   }
 </style>
